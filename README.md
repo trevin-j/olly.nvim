@@ -1,10 +1,27 @@
-# Ollama Copilot
-<img src="assets/demoV2.gif" width="900"  alt="Demo GIF">
+# olly.nvim
 
+olly.nvim is a generative AI code completion plugin like GitHub Copilot. It is based on [Ollama-Copilot](https://github.com/Jacob411/Ollama-Copilot).
+To date, most of the plugin code is by Jacob411. Obviously, huge thanks to Jacob411.
+Ollama-Copilot is licensed under MIT.
+
+This is a fork with the intention of going my own direction with the plugin.
+My immediate focus was on finishing up the existing fill-in-the-middle completion.
+Second, I aim to select a few models that I believe will work best, rather than opening it up for any model.
+This is because I believe the current best small coding model is Qwen2.5-coder, offering model sizes down to a mere half a billion parameters, allowing it to be run on devices such as a raspberry pi.
+Qwen2.5-coder has a specific FIM template which isn't compatible with other models.
+
+Some additional planned improvements include the name of the file, the content in other files, etc. for more context-aware completions.
+Qwen2.5-coder comes with builtin templating options for these features.
+Additionally, I plan to look into YaRN, something that will help expand the context length and understanding of these Qwen models, hopefully allowing it to handle more than 32k tokens worth of data.
+
+This project is deeply under construction and not ready so listen to the readme with caution.
+
+One frustrating known issue is losing access to the tab button :(.
+This is being worked on.
 
 ## Overview
 ### Copilot-like Tab Completion for NeoVim
-Ollama Copilot allows users to integrate their Ollama code completion models into Neovim, giving GitHub Copilot-like tab completions.  
+olly.nvim allows users to integrate their Ollama code completion models into Neovim, giving GitHub Copilot-like tab completions.  
   
 Offers **Suggestion Streaming** which will stream the completions into your editor as they are generated from the model.
 
@@ -19,7 +36,7 @@ Offers **Suggestion Streaming** which will stream the completions into your edit
 
 ## Install
 ### Requires
-To use Ollama-Copilot, you need to have Ollama installed [github.com/ollama/ollama](https://github.com/ollama/ollama):  
+To use olly.nvim, you need to have Ollama installed [github.com/ollama/ollama](https://github.com/ollama/ollama):  
 ```bash
 curl -fsSL https://ollama.com/install.sh | sh
 ```
@@ -39,12 +56,12 @@ ollama pull <Model name>
 Lazy:
 ```lua
 -- Default configuration
-{"Jacob411/Ollama-Copilot", opts={}}
+{"trevin-j/olly.nvim", opts={}}
 ```
 ```lua
 -- Custom configuration (defaults shown)
 {
-  'jacob411/Ollama-Copilot',
+  'trevin-j/olly.nvim',
   opts = {
     model_name = "deepseek-coder:base",
     stream_suggestion = false,
@@ -59,13 +76,14 @@ Lazy:
         reject = '<leader>or',
         insert_accept = '<Tab>',
     },
+    fill_in_middle = false,
 }
 },
 ```
 For more Ollama customization, see [github.com/ollama/ollama/blob/main/docs/modelfile.md](https://github.com/ollama/ollama/blob/main/docs/modelfile.md)
 
 ## Usage
-Ollama copilot language server will attach when you enter a buffer and can be viewed using:
+olly.nvim language server will attach when you enter a buffer and can be viewed using:
 ```lua
 :LspInfo
 ```
@@ -75,12 +93,4 @@ Smaller models (<3 billion parameters) work best for tab completion tasks, provi
 - [starcoder](https://ollama.com/library/starcoder:1b) - 1B
 - [codegemma](https://ollama.com/library/codegemma:2b) - 2B
 - [starcoder2](https://ollama.com/library/starcoder2:3b) - 3B
-  
-## Contributing
-Contributions are welcome! If you have any ideas for new features, improvements, or bug fixes, please open an issue or submit a pull request.
-
-I am hopeful to add more on the model side as well, as I am interested in finetuning the models and implementing RAG techniques, moving outside of using just Ollama.
-
-## License
-This project is licensed under the MIT License.
 
